@@ -317,6 +317,15 @@ CDATA;
         $buttons = collect($this->buttons)->filter();
         $bulkButtons = $buttons->only($this->bulkActions);
 
+        
+        if ($customBulkActions = Arr::get($this->attributes, 'customBulkActions')) {
+            foreach ($customBulkActions as $customBulkAction) {
+                if (Arr::has($customBulkAction, ['title', 'url'])) {
+                    $bulkButtons->put(Str::camel(Arr::get($customBulkAction, 'title')), true);
+                }
+            }
+        }
+        
         return collect([
             'create' => ['extend' => 'create', 'text' => '<i class="fa fa-plus"></i> '.trans('cortex/foundation::common.create')],
             'import' => ['extend' => 'import', 'text' => '<i class="fa fa-upload"></i> '.trans('cortex/foundation::common.import')],

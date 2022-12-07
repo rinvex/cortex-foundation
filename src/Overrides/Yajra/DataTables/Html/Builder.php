@@ -22,6 +22,12 @@ class Builder extends BaseBuilder
      * @var string
      */
     protected $routePrefix = '';
+    
+    /**
+     * Custom bulk actions with parameters
+     * @var array
+     */
+    protected $customBulkActions = [];
 
     /**
      * Get generated raw scripts.
@@ -64,6 +70,7 @@ class Builder extends BaseBuilder
             'id' => $this->getTableAttribute('id'),
             'options' => $this->generateJson(),
             'routePrefix' => $this->routePrefix,
+            'customBulkActions' => $this->customBulkActions,
             'editors' => $this->editors,
             'pusher' => $this->pusher,
         ])->render();
@@ -94,6 +101,23 @@ class Builder extends BaseBuilder
     {
         $this->routePrefix = $routePrefix;
 
+        return $this;
+    }
+    
+    /**
+     * Configure DataTable's custom bulk action with parameters.
+     *
+     * @param array $customBulkActions
+     *
+     * @return $this
+     */
+    public function customBulkActions(array $customBulkActions = [])
+    {
+        $this->customBulkActions = \Arr::map($customBulkActions, function ($action) {
+            $action['name'] = \Str::camel($action['title']);
+            return $action;
+        });
+        
         return $this;
     }
 }
