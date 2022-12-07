@@ -26,7 +26,7 @@
                         {{ Form::open(['url' => $url, 'class' => 'dropzone', 'id' => "$id-media-dropzone", 'data-dz-accepted-files' => implode(',', config('cortex.foundation.datatables.imports'))]) }}
                             <div class="dz-message" data-dz-message><span>{{ trans('cortex/foundation::common.drop_to_import') }}</span></div>
                         {{ Form::close() }}
-                        {!! $dataTable->pusher($pusher ?? null)->routePrefix($routePrefix ?? null)->table(['id' => $id]) !!}
+                        {!! $dataTable->pusher($pusher ?? null)->routePrefix($routePrefix ?? null)->routeParams($routeParams ?? [])->table(['id' => $id]) !!}
                     </div>
 
                 </div>

@@ -23,7 +23,7 @@
                 <div class="tab-content">
 
                     <div class="tab-pane active" id="{{ $id }}-tab">
-                        {!! $dataTable->pusher($pusher ?? null)->routePrefix($routePrefix ?? null)->table(['id' => $id]) !!}
+                        {!! $dataTable->pusher($pusher ?? null)->routePrefix($routePrefix ?? null)->routeParams($routeParams ?? [])->table(['id' => $id]) !!}
                     </div>
 
                 </div>

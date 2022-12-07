@@ -24,7 +24,7 @@
                     <div class="box">
                         <div class="box-body">
                             @yield('datatable-filters')
-                            {!! $dataTable->pusher($pusher ?? null)->routePrefix($routePrefix ?? null)->table(['id' => $id]) !!}
+                            {!! $dataTable->pusher($pusher ?? null)->routePrefix($routePrefix ?? null)->routeParams($routeParams ?? [])->table(['id' => $id]) !!}
                         </div>
                     </div>
 
