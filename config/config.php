@@ -76,6 +76,7 @@ return [
         'accessibles' => 'accessibles',
         'cache_records' => 'cache_records',
         'cache_locks' => 'cache_locks',
+        'adjustable_layouts' => 'adjustable_layouts'
     ],
 
     // Media storage config

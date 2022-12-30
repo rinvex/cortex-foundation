@@ -16,6 +16,7 @@ Route::domain('{adminarea}')->group(function () {
 
             // Adminarea Home route
              Route::get('/')->name('home')->uses([HomeController::class, 'index']);
+             Route::post('update-layout')->name('update-layout')->uses([HomeController::class, 'updateLayout']);
              Route::post('country')->name('country')->uses([GenericController::class, 'country']);
 
              // Accessareas Routes

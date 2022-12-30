@@ -1,0 +1,162 @@
+/* Grid */
+/* purgecss start ignore */
+.grid , .columns {
+  position: relative;
+  min-width: 200px;
+  min-height: 200px;
+  padding-bottom: 3rem;
+  box-sizing: content-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.grid-item-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  .panel {
+    margin-bottom: 0;
+    height: inherit !important;
+
+    .panel-body.narrow-layout {
+      display: none;
+    }
+  }
+
+  .panel-success {
+    .panel-heading {
+      color: #fff;
+      background-color: #008d4c;
+    }
+  }
+
+  .panel-danger {
+    .panel-heading {
+      color: #fff;
+      background-color: #d73925;
+    }
+  }
+}
+
+.grid-item {
+  position: absolute;
+  margin-bottom: 20px;
+  z-index: 1;
+  padding-right: 0;
+
+  &.tile-disabled {
+    opacity: 60%;
+  }
+
+  &.grid-item-w1 {
+    width: 10%;
+  }
+  &.grid-item-w2 {
+    width: 20%;
+  }
+  &.grid-item-w3 {
+    width: 30%;
+  }
+  &.grid-item-w5 {
+    width: 50%;
+  }
+  &.grid-item-w8 {
+    width: 80%;
+  }
+  &.grid-item-w-full {
+    width: 100%;
+  }
+
+
+  &.muuri-item-positioning {
+    z-index: 2;
+  }
+  &.muuri-item-placeholder {
+    z-index: 2;
+    margin: 0;
+    opacity: 0.5;
+  }
+  &.muuri-item-dragging,
+  &.muuri-item-releasing {
+    z-index: 9999;
+  }
+  &.muuri-item-dragging {
+    cursor: move;
+  }
+  &.muuri-item-hidden {
+    z-index: 0;
+  }
+
+  .resizer-right {
+    width: 5px;
+    height: 100%;
+    background: transparent;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    cursor: e-resize;
+  }
+
+  .resizer-bottom {
+    width: 100%;
+    height: 5px;
+    background: transparent;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    cursor: n-resize;
+  }
+
+  .resizer-both {
+    width: 5px;
+    height: 5px;
+    background: transparent;
+    z-index: 10;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    cursor: nw-resize;
+  }
+
+  * {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+  }
+
+  .hover-tile-btn {
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    display: none;
+    z-index: 9999;
+  }
+
+  &:hover {
+    .hover-tile-btn {
+      display: block;
+    }
+  }
+
+  &.tile-editing {
+    animation: tile-shaking 1.3s infinite;
+  }
+
+}
+
+@keyframes tile-shaking {
+  0% { transform: translateX(0) }
+  25% { transform: translateX(2px) }
+  50% { transform: translateX(-2px) }
+  75% { transform: translateX(2px) }
+  100% { transform: translateX(0) }
+}
+/* purgecss end ignore */
+

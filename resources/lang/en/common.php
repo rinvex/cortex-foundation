@@ -89,5 +89,10 @@ return [
     'submit' => 'Submit',
     'yes' => 'Yes',
     'slug' => 'Slug',
-
+    'layout_edit' => 'Layout Edit',
+    'available_components' => 'Available components',
+    'search' => 'Search',
+    'sort' => 'Sort',
+    'filter' => 'Filter',
+    'layout' => 'Layout'
 ];
