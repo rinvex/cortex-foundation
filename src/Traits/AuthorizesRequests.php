@@ -37,7 +37,7 @@ trait AuthorizesRequests
 
         $parameter = is_array($parameter) ? implode(',', $parameter) : $parameter;
 
-        $parameter = $parameter ?: Str::snake(class_basename($model));
+        $parameter = $parameter ?: app($model)->getMorphClass();
 
         foreach ($this->mapResourceAbilities() as $method => $ability) {
             $modelName = in_array($method, $this->resourceMethodsWithoutModels()) ? $model : $parameter;
