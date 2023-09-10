@@ -150,8 +150,9 @@ class ExceptionHandler extends BaseExceptionHandler
         } elseif ($e instanceof ModelNotFoundException) {
             $model = Str::lower($e->getModel());
             $vendor = Str::before($model, '\\');
-            $resource = Str::afterLast($model, '\\');
-            $route = $request->accessarea().'.'.$vendor.'.'.Str::plural($resource).'.'.Str::plural($resource).'.index';
+            $module = Str::betweenFirst($model, '\\', '\\');
+            $resource = app($e->getModel())->getMorphClass();
+            $route = $request->accessarea().'.'.$vendor.'.'.Str::plural($module).'.'.Str::plural($resource).'.index';
             preg_match('/'.(Route::getPattern($resource) ?: '[a-zA-Z0-9-_]+').'/', $request->route($resource), $matches);
 
             return intend([
