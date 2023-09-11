@@ -46,7 +46,11 @@ return function () {
     Route::pattern('adminarea', route_pattern('adminarea'));
 
     // prepend middleware to the 'web' middleware group
-    Route::prependMiddlewareToGroup('web', SetSessionConfigRuntime::class);
+    if(Route::hasMiddlewareGroup('web')){
+        Route::prependMiddlewareToGroup('web', SetSessionConfigRuntime::class);
+    }else{
+        Route::middlewareGroup('web', [SetSessionConfigRuntime::class]);
+    }
 
     // Map relations
     Relation::morphMap([
