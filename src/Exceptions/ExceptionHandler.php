@@ -205,7 +205,15 @@ class ExceptionHandler extends BaseExceptionHandler
     protected function getHttpExceptionView(HttpExceptionInterface $e)
     {
         $accessarea = request()->accessarea();
-
-        return "cortex/foundation::{$accessarea}.errors.{$e->getStatusCode()}";
+        switch ($accessarea) {
+            case 'managerarea':
+            case 'tenantarea':
+                $view = "cortex/tenants::{$accessarea}.errors.{$e->getStatusCode()}";
+                break;
+            default:
+                $view ="cortex/foundation::{$accessarea}.errors.{$e->getStatusCode()}";
+                break;
+        }
+        return $view;
     }
 }
