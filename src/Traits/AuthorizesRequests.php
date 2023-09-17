@@ -8,6 +8,9 @@ use ReflectionClass;
 use ReflectionMethod;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Cortex\Foundation\Http\Controllers\AbstractController;
+use Cortex\Foundation\Http\Controllers\AuthorizedController;
+use Cortex\Foundation\Http\Controllers\AuthenticatedController;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests as BaseAuthorizesRequests;
 
 trait AuthorizesRequests
@@ -83,10 +86,11 @@ trait AuthorizesRequests
     {
         // Reflect calling controller
         $controller = new ReflectionClass(static::class);
+        $controllersNames = $this->getControllersNames($controller);
 
         // Get public methods and filter magic methods
-        $methods = array_filter($controller->getMethods(ReflectionMethod::IS_PUBLIC), function ($item) use ($controller) {
-            return $item->class === $controller->name && mb_substr($item->name, 0, 2) !== '__' && ! in_array($item->name, $this->resourceActionWhitelist);
+        $methods = array_filter($controller->getMethods(ReflectionMethod::IS_PUBLIC), function ($item) use ($controllersNames) {
+            return in_array($item->class, $controllersNames) && mb_substr($item->name, 0, 2) !== '__' && ! in_array($item->name, $this->resourceActionWhitelist);
         });
 
         // Get controller actions
@@ -102,6 +106,21 @@ trait AuthorizesRequests
         return $actions;
     }
 
+    /**
+     * get controller and its parents names.
+     *
+     * @return array
+     */
+    protected function getControllersNames(ReflectionClass $controller): array
+    {
+        if(!$controller->getParentClass() || $controller->getName() == AbstractController::class || $controller->getName() == AuthorizedController::class || $controller->getName() == AuthenticatedController::class){
+            return [];
+        }
+        if(! $controller->getParentClass()){
+            return [$controller->getName()];
+        }
+        return array_merge([$controller->getName()], $this->getControllersNames($controller->getParentClass()));
+    }
     /**
      * {@inheritdoc}
      */
