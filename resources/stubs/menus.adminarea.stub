@@ -1,0 +1,12 @@
+<?php
+
+declare(strict_types=1);
+
+use Rinvex\Menus\Models\MenuItem;
+use Rinvex\Menus\Models\MenuGenerator;
+
+//Menu::register('adminarea.sidebar', function (MenuGenerator $menu) {
+//    $menu->findByTitleOrAdd('example title', 10, 'fa fa-arrows', 'header', [], [], function (MenuItem $dropdown) {
+//        $dropdown->route(['adminarea.cortex.example.route'], 'example title', 20, 'fa fa-tags')->activateOnRoute('adminarea.cortex.example.route');
+//    });
+//});

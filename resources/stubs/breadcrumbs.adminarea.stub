@@ -1,0 +1,11 @@
+<?php
+
+declare(strict_types=1);
+
+use Diglactic\Breadcrumbs\Generator;
+use Diglactic\Breadcrumbs\Breadcrumbs;
+
+//Breadcrumbs::for('adminarea.cortex.example.route, function (Generator $breadcrumbs) {
+//    $breadcrumbs->push('<i class="fa fa-dashboard"></i> '.config('app.name'), route('adminarea.home'));
+//    $breadcrumbs->push(example title, route('adminarea.cortex.example.route'));
+//});

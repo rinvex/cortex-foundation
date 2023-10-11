@@ -26,7 +26,7 @@ class SeederMakeCommand extends BaseSeederMakeCommand
      */
     protected function getPath($name): string
     {
-        $name = $this->moduleName().DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'seeds'.DIRECTORY_SEPARATOR.$name;
+        $name = \Str::replaceFirst($this->rootNamespace(), $this->moduleName().DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'seeders'.DIRECTORY_SEPARATOR, $name);
 
         if (! $this->files->exists($path = $this->laravel['path'].DIRECTORY_SEPARATOR.$this->moduleName().DIRECTORY_SEPARATOR)) {
             throw new \Exception("Invalid path: $path");

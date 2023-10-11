@@ -82,6 +82,7 @@ class ModuleMakeCommand extends Command
         // stub files so that it gets the correctly formatted namespace and class name.
         $stubs = __DIR__.'/../../../resources/stubs/module';
         $this->processStubs($stubs, $path);
+        $this->processOtherStubFiles($path);
         $this->generateSamples();
 
         $this->info($this->type.' created successfully.');
@@ -123,7 +124,8 @@ class ModuleMakeCommand extends Command
         $this->call('make:middleware', ['name' => 'ExampleMiddleware', '--module' => $this->getNameInput()]);
         $this->call('make:transformer', ['name' => 'ExampleTransformer', '--model' => 'Example', '--module' => $this->getNameInput()]);
         $this->call('make:datatable', ['name' => 'ExampleDatatable', '--model' => 'Example', '--transformer' => 'ExampleTransformer', '--module' => $this->getNameInput()]);
-
+        $this->call('make:seeder', ['name' => 'ExampleSeeder', '--module' => $this->getNameInput()]);
+    
         $this->warn('Optionally create migrations and seeds (it may take some time):');
         $this->warn("artisan make:migration create_{$module}_example_table --module {$this->getNameInput()}");
         $this->warn("artisan make:seeder ExampleSeeder --module {$this->getNameInput()}");
@@ -183,5 +185,39 @@ class ModuleMakeCommand extends Command
         }
 
         return $name;
+    }
+    
+    protected function processOtherStubFiles($path)
+    {
+        $files = [
+            'resources'.DIRECTORY_SEPARATOR.'views' => ['home.blade.php' => __DIR__.'/../../../resources/stubs/blade.stub'],
+            'resources'.DIRECTORY_SEPARATOR.'lang' => ['common.php' => __DIR__.'/../../../resources/stubs/lang.common.stub'],
+            'resources'.DIRECTORY_SEPARATOR.'js' => ['webpack.mix.js' => __DIR__.'/../../../resources/stubs/webpack.js.stub'],
+            'routes'.DIRECTORY_SEPARATOR.'web' => [
+                'adminarea.php' => __DIR__.'/../../../resources/stubs/route.adminarea.stub',
+                'frontarea.php' => __DIR__.'/../../../resources/stubs/route.frontarea.stub',
+                'managerarea.php' => __DIR__.'/../../../resources/stubs/route.managerarea.stub'
+            ],
+            'routes'.DIRECTORY_SEPARATOR.'menus' => [
+                'adminarea.php' => __DIR__.'/../../../resources/stubs/menus.adminarea.stub',
+                'frontarea.php' => __DIR__.'/../../../resources/stubs/menus.frontarea.stub',
+                'managerarea.php' => __DIR__.'/../../../resources/stubs/menus.managerarea.stub'
+            ],
+            'routes'.DIRECTORY_SEPARATOR.'breadcrumbs' => ['adminarea.php' => __DIR__.'/../../../resources/stubs/breadcrumbs.adminarea.stub'],
+            'routes'.DIRECTORY_SEPARATOR.'broadcasts' => ['channels.php' => __DIR__.'/../../../resources/stubs/broadcasts.channels.stub'],
+            'bootstrap' => [
+                'module.php' => __DIR__.'/../../../resources/stubs/bootstrap.module.stub',
+                'schedule.php' => __DIR__.'/../../../resources/stubs/bootstrap.schedule.stub'
+            ],
+            
+        ];
+        
+        collect($files)->each( function ($stubs, $folder) use ($path) {
+            $folderPath = $path.DIRECTORY_SEPARATOR.$folder;
+            $this->files->makeDirectory($folderPath, 0755, true);
+            collect($stubs)->each( function ($stub, $fileName) use ($folderPath) {
+                $this->files->put($folderPath.DIRECTORY_SEPARATOR.$fileName, $this->files->get($stub));
+            });
+        });
     }
 }

@@ -71,7 +71,9 @@
     },
     "autoload": {
         "psr-4": {
-            "Dummy\\Module\\": "src/"
+            "Dummy\\Module\\": "src/",
+            "Dummy\\Module\\Database\\Seeders\\": "database/seeders/",
+            "Dummy\\Module\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {

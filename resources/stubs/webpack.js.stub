@@ -1,0 +1,11 @@
+module.exports = {
+    scanForCssSelectors: [],
+    webpackPlugins: [],
+    safelist: [],
+    install: [],
+    copy: [],
+    mix: {
+        css: [],
+        js: [],
+    },
+};

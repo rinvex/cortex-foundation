@@ -1,0 +1,10 @@
+<?php
+
+declare(strict_types=1);
+
+use Rinvex\Menus\Models\MenuItem;
+use Rinvex\Menus\Models\MenuGenerator;
+
+//Menu::register('frontarea.header.navigation', function (MenuGenerator $menu) {
+//    $menu->url(route('frontarea.home'), 'Home', null, null, ['class' => 'smothscroll'])->if(! Route::is('frontarea.home'));
+//});

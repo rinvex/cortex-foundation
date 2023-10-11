@@ -1,0 +1,12 @@
+{{-- Master Layout --}}
+@extends('cortex/foundation::adminarea.layouts.default')
+
+{{-- Page Title --}}
+@section('title')
+    {{ extract_title(Breadcrumbs::render()) }}
+@endsection
+
+{{-- Main Content --}}
+@section('content')
+
+@endsection
