@@ -6,6 +6,8 @@ namespace Cortex\Foundation\Overrides\Yajra\DataTables\Html;
 
 use Illuminate\Support\HtmlString;
 use Yajra\DataTables\Html\Builder as BaseBuilder;
+use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\Html\SearchPane;
 
 class Builder extends BaseBuilder
 {
@@ -60,13 +62,41 @@ class Builder extends BaseBuilder
     {
         $template = $this->template ?: $this->config->get('datatables-html.script', 'datatables::script');
 
-        return $this->view->make($template, [
+        return $this->applySearchPanes()
+            ->view->make($template, [
             'id' => $this->getTableAttribute('id'),
             'options' => $this->generateJson(),
             'routePrefix' => $this->routePrefix,
             'editors' => $this->editors,
             'pusher' => $this->pusher,
         ])->render();
+    }
+
+    /**
+     * Configure DataTable's Search panes.
+     *
+     * @return $this
+     */
+    public function applySearchPanes()
+    {
+        $searchPane = SearchPane::make()->cascadePanes()->hideTotal()->hideCount()->layout('columns-4');
+        $targetColumns = collect();
+        $this->getColumns()->each( function (Column $column, $key) use ($targetColumns) {
+            if (!empty($column->searchPanes)) {
+                $targetColumns->push($key);
+            }
+        });
+        $this->searchPanes($searchPane)
+            ->columnDefs([
+                [
+                    'searchPanes' => [
+                        'show' => true,
+                    ],
+                    'targets' => $targetColumns->toArray(),
+                ]
+            ]);
+
+        return $this;
     }
 
     /**

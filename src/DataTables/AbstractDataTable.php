@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Model;
 use Cortex\Foundation\Exceptions\GenericException;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Cortex\Foundation\Transformers\DataArrayTransformer;
+use Yajra\DataTables\DataTableAbstract;
+use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable as BaseDataTable;
 
 abstract class AbstractDataTable extends BaseDataTable
@@ -226,10 +228,34 @@ abstract class AbstractDataTable extends BaseDataTable
      */
     public function ajax(): JsonResponse
     {
-        return datatables($this->query())
+        return $this->datatables()
             ->setTransformer(app($this->transformer))
             ->whitelist(array_keys($this->getColumns()))
             ->make(true);
+    }
+
+
+    /**
+     * Initialize Datatable instance.
+     *
+     * @return DataTableAbstract
+     */
+    public function datatables()
+    {
+        $datatable = datatables($this->query());
+
+        $this->getColumnsFromBuilder()->each(function (Column $column) use ($datatable) {
+            if (!empty($column->searchPanes)) {
+                $datatable->searchPane($column->name,
+                    $this->query()->selectRaw("$column->name as value, $column->name as label")->distinct()->get(),
+                    function (\Illuminate\Database\Eloquent\Builder $query, array $values) use ($column) {
+                        return $query->whereIn($column->name, $values);
+                    }
+                );
+            }
+        });
+
+        return $datatable;
     }
 
     /**
