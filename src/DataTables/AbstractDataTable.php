@@ -77,6 +77,8 @@ abstract class AbstractDataTable extends BaseDataTable
      */
     abstract protected function getColumns(): array;
 
+    abstract protected function charts(): array;
+
     /**
      * Create new instance of datatables.
      */
@@ -232,6 +234,32 @@ abstract class AbstractDataTable extends BaseDataTable
             ->make(true);
     }
 
+    /**
+     * Process Chart Data
+     *
+     * @return array
+     */
+    public function getCharts(): array
+    {
+        $chartsData = collect();
+        collect($this->charts())->each(function ($chart) use ($chartsData) {
+            if (count(array_diff(['column', 'type', 'title'],  array_keys($chart))) == 0) {
+                $chartData = $chart;
+                if (!array_key_exists('data', $chart)) {
+                    $chartData['data'] = $this->query()->selectRaw('COUNT('.$chart['column'].') as total, '.$chart['column'].' as value')
+                        ->when(!empty($this->request()->search['value']), function ($q) use ($chart) {
+                            $q->where($chart['column'], 'LIKE', "%".$this->request()->search['value']);
+                        })
+                        ->groupBy($chart['column'])
+                        ->pluck('total', 'value')
+                        ->toArray();
+                }
+                $chartsData->push($chartData);
+            }
+        });
+
+        return $chartsData->toArray();
+    }
     /**
      * Optional method if you want to use html builder.
      *

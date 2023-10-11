@@ -44,8 +44,10 @@
 
 @push('vendor-scripts')
     <script src="{{ mix('js/datatables.js') }}" defer></script>
+    <script src="{{ mix('js/highcharts.js') }}" defer></script>
 @endpush
 
 @push('inline-scripts')
     {!! $dataTable->scripts() !!}
+    <script src="{{ mix('js/datatable-highcharts.js') }}" defer></script>
 @endpush
