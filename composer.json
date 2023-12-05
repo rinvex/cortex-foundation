@@ -64,7 +64,7 @@
         "diglactic/laravel-breadcrumbs": "^8.0.0",
         "h4cc/wkhtmltoimage-amd64": "^0.12.0",
         "h4cc/wkhtmltopdf-amd64": "^0.12.0",
-        "geoip2/geoip2": "^2.11.0",
+        "geoip2/geoip2": "^3.0.0",
         "laravel/framework": "^10.0.0 || ^11.0.0",
         "laravelcollective/html": "^6.3.0",
         "league/fractal": "^0.20.0",
